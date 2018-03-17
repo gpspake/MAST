@@ -1,3 +1,11 @@
+## Getting started
+```bash
+git clone
+cd mast
+pyton ./mast.py
+```
+
+
 - [JWST User Documentation Home](https://jwst-docs.stsci.edu/)
 - [Obtaining JWST Data](https://jwst-docs.stsci.edu/display/JDAT/Obtaining+JWST+Data)
 - [Programmatic Interfaces](https://jwst-docs.stsci.edu/display/JDAT/Programmatic+Interfaces)
