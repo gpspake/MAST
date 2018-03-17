@@ -43,10 +43,19 @@ def mastQuery(request):
 
     # Encoding the request as a json string
     requestString = json.dumps(request)
+
+    print "\n\nHEADERS:\n"
+    print headers
+
+    print "\n\nREQUEST_STRING:\n"
+    print requestString
+    
+
     requestString = urlencode(requestString)
 
     # opening the https connection
     conn = httplib.HTTPSConnection(server)
+
 
     # Making the query
     conn.request("POST", "/api/v0/invoke", "request=" + requestString, headers)
@@ -60,6 +69,9 @@ def mastQuery(request):
     conn.close()
 
     return head, content
+
+
+
 
 objectOfInterest = 'M101'
 
@@ -87,7 +99,7 @@ resolverRequest = {'service':'Mast.Name.Lookup',
 mastRequest = {'service':'Mast.Caom.Cone',
                'params':{'ra':objRa,
                          'dec':objDec,
-                         'radius':0.2},
+                         'radius':10.0},
                'format':'json',
                'pagesize':2000,
                'page':1,
@@ -98,5 +110,32 @@ headers,mastDataString = mastQuery(mastRequest)
 
 mastData = json.loads(mastDataString)
 
+print "\nHEADERS:\n"
+print headers
+
+print "\nKEYS:\n"
 print(mastData.keys())
+
+print "\nDATA COUNT:\n"
+print(len(mastData['data']))
+
+print "\nFIRST DATA VALUE:\n"
+pp.pprint(mastData['data'][0])
+
 print("Query status:",mastData['status'])
+
+
+def listCaomMissions():
+    request = {
+        'service':'Mast.Missions.List',
+        'params':{},
+        'format':'json'
+    }
+        
+    headers,outString = mastQuery(request)
+    
+    outData = [x['distinctValue'] for x in json.loads(outString)['data']]
+    
+    return outData
+
+print listCaomMissions()
